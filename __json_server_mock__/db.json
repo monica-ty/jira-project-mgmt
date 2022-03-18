@@ -1,3 +1,57 @@
 {
-    "users": []
+    "users": [
+        {
+            "id": 1,
+            "name": "Alice"
+        },
+        {
+            "id": 2,
+            "name": "David"
+        },
+        {
+            "id": 3,
+            "name": "Zach"
+        },
+        {
+            "id": 4,
+            "name": "Will"
+        }
+    ],
+    "projects": [
+        {
+            "id": 1,
+            "name": "Employee Management",
+            "personId": 1,
+            "organization": "Delivery",
+            "created": 1604989757139
+        },
+        {
+            "id": 2,
+            "name": "Group Purchase App",
+            "personId": 2,
+            "organization": "GP",
+            "created": 1604989757139
+        },
+        {
+            "id": 3,
+            "name": "Administration",
+            "personId": 2,
+            "organization": "Admin",
+            "created": 1604989757139
+        },
+        {
+            "id": 4,
+            "name": "Mangement System",
+            "personId": 3,
+            "organization": "HQ",
+            "created": 1604980000011
+        },
+        {
+            "id": 5,
+            "name": "Path Plan",
+            "personId": 4,
+            "organization": "Delivery",
+            "created": 1546900800000
+        }
+    ]
 }
