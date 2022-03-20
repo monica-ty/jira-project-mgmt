@@ -41,7 +41,7 @@
         },
         {
             "id": 4,
-            "name": "Mangement System",
+            "name": "Management System",
             "personId": 3,
             "organization": "HQ",
             "created": 1604980000011

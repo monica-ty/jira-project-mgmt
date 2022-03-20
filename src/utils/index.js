@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 export const isFalsy = (value) => (value === 0 ? false : !value);
 // Do not change the input object in a function
 // Objects are reference, the object will change also outside the function
@@ -12,4 +14,33 @@ export const cleanObject = (object) => {
     }
   });
   return result;
+};
+
+export const useMount = (callback) => {
+  useEffect(() => {
+    callback();
+  }, []);
+};
+
+// export const debounce = (func, delay) => {
+//   let timeout; //closure
+//   return () => {
+//     if (timeout) {
+//       clearTimeout(timeout);
+//     }
+//     timeout = setTimeout(function() {
+//       func();
+//     }, delay); // the last timeout + delay => call func
+//   }
+// }
+
+export const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    // set timeout everytime after value changed
+    const timeout = setTimeout(() => setDebouncedValue(value), delay);
+    // run after the last useEffect finish running
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+  return debouncedValue;
 };
