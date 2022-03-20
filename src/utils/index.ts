@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const isFalsy = (value: any) => (value === 0 ? false : !value);
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 // Do not change the input object in a function
 // Objects are reference, the object will change also outside the function
 // People do not expect that
@@ -36,7 +36,10 @@ export const useMount = (callback: () => void) => {
 //   }
 // }
 
-export const useDebounce = (value: any, delay?: number) => {
+// you cannot assign unknow to any variable
+// you cannot use any method of unknown value
+// you should give generic type to the return value
+export const useDebounce = <V>(value: V, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
     // set timeout everytime after value changed
