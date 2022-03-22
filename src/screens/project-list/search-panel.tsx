@@ -1,5 +1,3 @@
-import React from "react";
-
 interface SearchPanelProps {
   users: User[];
   param: {
@@ -17,7 +15,8 @@ export interface User {
 }
 
 export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
-  // You can also define setParam function here and call it back at onChange
+  // We need param, but moved it to index.tsx(hoisting)
+  // Return a form to get the user input
   return (
     <form>
       <div>
@@ -46,6 +45,10 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
         >
           {/*Show all the users in the pull-down list*/}
           <option value={""}>Manager</option>
+          {/*We also need users, hoisting in index.tsx
+            Use .map to traverse users
+            A callback function set value to user.id
+            display user.name*/}
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}

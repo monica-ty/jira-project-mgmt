@@ -1,4 +1,3 @@
-import React from "react";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useEffect, useState } from "react";
@@ -8,6 +7,8 @@ import { cleanObject, useMount, useDebounce } from "utils";
 const apiUrl = process.env.REACT_APP_API_URL;
 // export means you can import it in other files
 // const makes sure that you cannot define another function with the same name later
+
+// ProjectListScreen is the entrance
 export const ProjectListScreen = () => {
   // useState return an array, 1st item is stateValue, 2rd item is updateFunction
   // useState(initialState), once state changes, React will reset the value with the set function
@@ -20,20 +21,21 @@ export const ProjectListScreen = () => {
   // The filtered list that responsed by fetch()
   const [list, setList] = useState([]);
   // Request project API when param changed
+  // Also request when first open the page, and the responsed list will be all projects
+  // Because the cleanObject function cleans emply searching conditions
   useEffect(() => {
     // fetch return a promise (See fetch document!!!)
-    // ?name=${param.name}&personId=${param.personId}
-    // ${qs.stringfy(cleanObject(param))}
+    // async + await, wait until Response success
     fetch(
       `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
     ).then(async (response) => {
-      // Response success
       if (response.ok) {
         setList(await response.json());
       }
     });
-  }, [debouncedParam]);
+  }, [debouncedParam]); // fetch when debouncedParam changed
 
+  // This is loaded at the first time when users open the page
   useMount(() => {
     fetch(`${apiUrl}/users`).then(async (response) => {
       // Response success
@@ -43,7 +45,10 @@ export const ProjectListScreen = () => {
     });
   });
 
+  // Return a page with SearchPanel and List
   return (
+    // SearchPanel/List as elements
+    // param/users... as attributes
     <div>
       <SearchPanel param={param} users={users} setParam={setParam} />
       <List users={users} list={list} />
