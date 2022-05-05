@@ -3,6 +3,7 @@ import { List } from "./list";
 import { useEffect, useState } from "react";
 import qs from "qs";
 import { cleanObject, useMount, useDebounce } from "utils";
+import { useHttp } from "utils/http";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 // export means you can import it in other files
@@ -20,29 +21,33 @@ export const ProjectListScreen = () => {
   const debouncedParam = useDebounce(param, 200);
   // The filtered list that responsed by fetch()
   const [list, setList] = useState([]);
+  const client = useHttp();
+
   // Request project API when param changed
   // Also request when first open the page, and the responsed list will be all projects
   // Because the cleanObject function cleans emply searching conditions
   useEffect(() => {
+    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
     // fetch return a promise (See fetch document!!!)
     // async + await, wait until Response success
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
-    ).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json());
-      }
-    });
+    // fetch(
+    //   `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
+    // ).then(async (response) => {
+    //   if (response.ok) {
+    //     setList(await response.json());
+    //   }
+    // });
   }, [debouncedParam]); // fetch when debouncedParam changed
 
   // This is loaded at the first time when users open the page
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (response) => {
-      // Response success
-      if (response.ok) {
-        setUsers(await response.json());
-      }
-    });
+    client("users").then(setUsers);
+    // fetch(`${apiUrl}/users`).then(async (response) => {
+    //   // Response success
+    //   if (response.ok) {
+    //     setUsers(await response.json());
+    //   }
+    // });
   });
 
   // Return a page with SearchPanel and List
