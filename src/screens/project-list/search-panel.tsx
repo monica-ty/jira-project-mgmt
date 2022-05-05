@@ -1,3 +1,5 @@
+import { Input, Select } from "antd";
+
 interface SearchPanelProps {
   users: User[];
   param: {
@@ -25,7 +27,7 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
                setParam 
                evt = event? */}
         {/*setParam(Object.assign({}, param, {name:evt.target.value}))*/}
-        <input
+        <Input
           type="text"
           value={param.name}
           onChange={(evt) =>
@@ -35,27 +37,27 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
             })
           }
         />
-        <select
+        <Select
           value={param.personId}
-          onChange={(evt) =>
+          onChange={(value) =>
             setParam({
               ...param,
-              personId: evt.target.value,
+              personId: value,
             })
           }
         >
           {/*Show all the users in the pull-down list*/}
-          <option value={""}>Manager</option>
+          <Select.Option value={""}>Manager</Select.Option>
           {/*We also need users, hoisting in index.tsx
             Use .map to traverse users
             A callback function set value to user.id
             display user.name*/}
           {users.map((user) => (
-            <option key={user.id} value={user.id}>
+            <Select.Option key={user.id} value={user.id}>
               {user.name}
-            </option>
+            </Select.Option>
           ))}
-        </select>
+        </Select>
       </div>
     </form>
   );

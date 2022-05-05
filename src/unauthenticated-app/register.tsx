@@ -1,3 +1,4 @@
+import { Button, Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
 import { FormEvent } from "react";
 
@@ -18,25 +19,36 @@ export const RegisterScreen = () => {
 
   const { register, user } = useAuth();
 
-  const handelSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const username = (event.currentTarget.elements[0] as HTMLInputElement)
-      .value;
-    const password = (event.currentTarget.elements[1] as HTMLInputElement)
-      .value;
-    register({ username, password });
+  // const handelSubmit = (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const username = (event.currentTarget.elements[0] as HTMLInputElement)
+  //     .value;
+  //   const password = (event.currentTarget.elements[1] as HTMLInputElement)
+  //     .value;
+  //   register({ username, password });
+  // };
+
+  const handelSubmit = (values: { username: string; password: string }) => {
+    register(values);
   };
+
   return (
-    <form onSubmit={handelSubmit}>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input type="text" id={"username"} />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input type="password" id={"password"} />
-      </div>
-      <button type={"submit"}>Register</button>
-    </form>
+    <Form onFinish={handelSubmit}>
+      <Form.Item
+        name={"username"}
+        rules={[{ required: true, message: "please enter a username" }]}
+      >
+        <Input placeholder={"username"} type="text" id={"username"} />
+      </Form.Item>
+      <Form.Item
+        name={"password"}
+        rules={[{ required: true, message: "please enter a password" }]}
+      >
+        <Input placeholder={"password"} type="password" id={"password"} />
+      </Form.Item>
+      <Button htmlType={"submit"} type={"primary"}>
+        Register
+      </Button>
+    </Form>
   );
 };
