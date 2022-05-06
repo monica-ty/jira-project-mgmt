@@ -1,6 +1,6 @@
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
-import { FormEvent } from "react";
+import { LongButton } from "unauthenticated-app";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 export const RegisterScreen = () => {
@@ -46,9 +46,9 @@ export const RegisterScreen = () => {
       >
         <Input placeholder={"password"} type="password" id={"password"} />
       </Form.Item>
-      <Button htmlType={"submit"} type={"primary"}>
+      <LongButton htmlType={"submit"} type={"primary"}>
         Register
-      </Button>
+      </LongButton>
     </Form>
   );
 };
