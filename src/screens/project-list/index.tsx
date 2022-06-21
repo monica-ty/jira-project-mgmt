@@ -1,9 +1,9 @@
-import { SearchPanel } from "./search-panel";
-import { List } from "./list";
+import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import qs from "qs";
-import { cleanObject, useMount, useDebounce } from "utils";
+import { cleanObject, useDebounce, useMount } from "utils";
 import { useHttp } from "utils/http";
+import { List } from "./list";
+import { SearchPanel } from "./search-panel";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 // export means you can import it in other files
@@ -54,9 +54,14 @@ export const ProjectListScreen = () => {
   return (
     // SearchPanel/List as elements
     // param/users... as attributes
-    <div>
+    <Container>
+      <h1>Project List</h1>
       <SearchPanel param={param} users={users} setParam={setParam} />
       <List users={users} list={list} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;

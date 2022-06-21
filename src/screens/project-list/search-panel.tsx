@@ -1,4 +1,5 @@
-import { Input, Select } from "antd";
+/** @jsxImportSource @emotion/react */
+import { Form, Input, Select } from "antd";
 
 interface SearchPanelProps {
   users: User[];
@@ -21,13 +22,14 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
   // We need param, but moved it to index.tsx(hoisting)
   // Return a form to get the user input
   return (
-    <form>
-      <div>
+    <Form layout={"inline"} css={{ marginBottom: "2rem" }}>
+      <Form.Item>
         {/*Call back function: funB as funA's parameter
-               setParam 
+               setParam
                evt = event? */}
         {/*setParam(Object.assign({}, param, {name:evt.target.value}))*/}
         <Input
+          placeholder="Project"
           type="text"
           value={param.name}
           onChange={(evt) =>
@@ -37,6 +39,8 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
             })
           }
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={(value) =>
@@ -58,7 +62,7 @@ export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
             </Select.Option>
           ))}
         </Select>
-      </div>
-    </form>
+      </Form.Item>
+    </Form>
   );
 };
