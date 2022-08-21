@@ -18,7 +18,7 @@ export const LoginScreen = () => {
   //   });
   // };
 
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   // const handelSubmit = (event: FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();

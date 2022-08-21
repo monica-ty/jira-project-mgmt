@@ -17,7 +17,7 @@ export const RegisterScreen = () => {
   //   });
   // };
 
-  const { register, user } = useAuth();
+  const { register } = useAuth();
 
   // const handelSubmit = (event: FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();

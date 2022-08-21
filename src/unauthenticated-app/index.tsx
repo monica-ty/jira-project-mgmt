@@ -1,11 +1,11 @@
+import styled from "@emotion/styled";
 import { Button, Card, Divider } from "antd";
+import left from "assets/left.svg";
+import logo from "assets/logo.svg";
+import right from "assets/right.svg";
 import { useState } from "react";
 import { LoginScreen } from "./login";
 import { RegisterScreen } from "./register";
-import styled from "@emotion/styled";
-import logo from "assets/logo.svg";
-import left from "assets/left.svg";
-import right from "assets/right.svg";
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -20,7 +20,7 @@ export const UnauthenticatedApp = () => {
         <p style={{ fontSize: "60%" }}>
           {isRegister ? "Already have an account?" : "Don't have an account?"}
         </p>
-        <Button onClick={() => setIsRegister(!isRegister)}>
+        <Button type="link" onClick={() => setIsRegister(!isRegister)}>
           {isRegister ? "Sign in" : "Sign up"}
         </Button>
       </ShadowCard>

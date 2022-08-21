@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
+import { Typography } from "antd";
 import { useEffect, useState } from "react";
 import { cleanObject, useDebounce, useMount } from "utils";
 import { useHttp } from "utils/http";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+// const apiUrl = process.env.REACT_APP_API_URL;
 // export means you can import it in other files
 // const makes sure that you cannot define another function with the same name later
 
@@ -14,6 +15,8 @@ export const ProjectListScreen = () => {
   // useState return an array, 1st item is stateValue, 2rd item is updateFunction
   // useState(initialState), once state changes, React will reset the value with the set function
   const [users, setUsers] = useState([]); //Initially Empty List
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | Error>(null);
   const [param, setParam] = useState({
     name: "", // name of the Project(user input string)
     personId: "", // Id of the Manager(pull-down check list)
@@ -27,7 +30,16 @@ export const ProjectListScreen = () => {
   // Also request when first open the page, and the responsed list will be all projects
   // Because the cleanObject function cleans emply searching conditions
   useEffect(() => {
-    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
+    setIsLoading(true);
+    client("projects", { data: cleanObject(debouncedParam) })
+      .then(setList)
+      .catch((error) => {
+        setList([]);
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
     // fetch return a promise (See fetch document!!!)
     // async + await, wait until Response success
     // fetch(
@@ -37,6 +49,7 @@ export const ProjectListScreen = () => {
     //     setList(await response.json());
     //   }
     // });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam]); // fetch when debouncedParam changed
 
   // This is loaded at the first time when users open the page
@@ -57,7 +70,10 @@ export const ProjectListScreen = () => {
     <Container>
       <h1>Project List</h1>
       <SearchPanel param={param} users={users} setParam={setParam} />
-      <List users={users} list={list} />
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <List users={users} dataSource={list} loading={isLoading} />
     </Container>
   );
 };
