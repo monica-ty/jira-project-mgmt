@@ -4,7 +4,7 @@ import { Form, Input } from "antd";
 import { LongButton } from "unauthenticated-app";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
-export const LoginScreen = () => {
+export const LoginScreen = (props: { onError: (error: Error) => void }) => {
   // const Login = (param: { username: string; password: string }) => {
   //   fetch(`${apiUrl}/register`, {
   //     method: "POST",
@@ -29,7 +29,7 @@ export const LoginScreen = () => {
   //   login({ username, password });
   // };
   const handelSubmit = (values: { username: string; password: string }) => {
-    login(values);
+    login(values).catch(props.onError);
   };
 
   return (

@@ -3,40 +3,66 @@ import styled from "@emotion/styled";
 import { Button, Dropdown, Menu } from "antd";
 import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { ProjectScreen } from "screens/project";
 import { ProjectListScreen } from "screens/project-list";
+import { resetRoute } from "utils";
 import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg";
 
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
   return (
     <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          {/* <img src={softwareLoge} alt="" /> */}
-          <SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
-          <h3>Project</h3>
-          <h3>User</h3>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key={"logout"}>
-                  <Button type={"link"} onClick={logout}>
-                    Logout
-                  </Button>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <Button type={"link"} onClick={(e) => e.preventDefault()}>
-              Hi, {user?.name}
-            </Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
-      <ProjectListScreen />
+      <PageHeader />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to={"/projects"} />} />
+          <Route path={"/projects"} element={<ProjectListScreen />}></Route>
+          <Route
+            path={"/projects/:projectId/*"}
+            element={<ProjectScreen />}
+          ></Route>
+          {/* <Navigate to={"/projects"} /> */}
+        </Routes>
+      </Router>
     </Container>
+  );
+};
+
+const PageHeader = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        {/* <img src={softwareLoge} alt="" /> */}
+        <Button type={"link"} onClick={resetRoute}>
+          <SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
+        </Button>
+        <h3>Project</h3>
+        <h3>User</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key={"logout"}>
+                <Button type={"link"} onClick={logout}>
+                  Logout
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button type={"link"} onClick={(e) => e.preventDefault()}>
+            Hi, {user?.name}
+          </Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   );
 };
 
@@ -53,7 +79,3 @@ const Header = styled(Row)`
 `;
 const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
-const Main = styled.main`
-  display: flex;
-  overflow: hidden;
-`;

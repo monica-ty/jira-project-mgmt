@@ -3,7 +3,7 @@ import { useAuth } from "context/auth-context";
 import { LongButton } from "unauthenticated-app";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
-export const RegisterScreen = () => {
+export const RegisterScreen = (props: { onError: (error: Error) => void }) => {
   // const Login = (param: { username: string; password: string }) => {
   //   fetch(`${apiUrl}/register`, {
   //     method: "POST",
@@ -28,8 +28,19 @@ export const RegisterScreen = () => {
   //   register({ username, password });
   // };
 
-  const handelSubmit = (values: { username: string; password: string }) => {
-    register(values);
+  const handelSubmit = ({
+    cpassword,
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpassword: string;
+  }) => {
+    if (cpassword !== values.password) {
+      props.onError(new Error("Please enter the same password"));
+      return;
+    }
+    register(values).catch(props.onError);
   };
 
   return (
@@ -45,6 +56,16 @@ export const RegisterScreen = () => {
         rules={[{ required: true, message: "please enter a password" }]}
       >
         <Input placeholder={"password"} type="password" id={"password"} />
+      </Form.Item>
+      <Form.Item
+        name={"cpassword"}
+        rules={[{ required: true, message: "please confirm your password" }]}
+      >
+        <Input
+          placeholder={"confirm password"}
+          type="password"
+          id={"cpassword"}
+        />
       </Form.Item>
       <LongButton htmlType={"submit"} type={"primary"}>
         Register
